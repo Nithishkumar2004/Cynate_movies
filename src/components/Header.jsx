@@ -1,46 +1,45 @@
-import React from 'react';
-import { Navigate, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { useAuth } from '../contexts/AuthContext';
 
-const Header = ({ setSearchQuery }) => {
-  const { currentUser } = useAuth(); // Get the current user from AuthContext
+const Header = () => {
+  const { currentUser } = useAuth(); // Get the current user from context
+  const navigate = useNavigate(); // Hook for navigation
+  const [isProfileOpen, setIsProfileOpen] = useState(false); // State to manage dropdown visibility
 
-  const activeClass = "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 active";
-  const inActiveClass = "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700";
+  const activeClass =
+    "block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 active";
+  const inActiveClass =
+    "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700";
 
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const queryTerm = e.target.search.value;
+
+    e.target.reset();
+    
+    return navigate(`/search?q=${queryTerm}`);
+
+  }
 
   const handleSignOut = async () => {
     try {
       await signOut(auth);
       console.log('User signed out');
-      Navigate("/")
+      navigate('/'); // Programmatic navigation to home
     } catch (error) {
-      console.error('Error signing out: ', error);
+      console.error('Error signing out:', error);
     }
   };
 
   const navThings = [
-    {
-      to: "/home",
-      name: "Home",
-    },
-    {
-      to: "movies/popular",
-      name: "Popular",
-    },
-    {
-      to: "movies/top",
-      name: "Top",
-    },
-    {
-      to: "movies/upcoming",
-      name: "Upcoming",
-    },
+    { to: "/home", name: "Home" },
+    { to: "/movies/popular", name: "Popular" },
+    { to: "/movies/top", name: "Top" },
+    { to: "/movies/upcoming", name: "Upcoming" },
   ];
 
   return (
@@ -48,7 +47,9 @@ const Header = ({ setSearchQuery }) => {
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <NavLink to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Cynate Movies</span>
+          <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+            Cynate Movies
+          </span>
         </NavLink>
         <div className="flex md:order-2">
           <div className="relative hidden md:block">
@@ -60,27 +61,46 @@ const Header = ({ setSearchQuery }) => {
                 fill="none"
                 viewBox="0 0 20 20"
               >
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
               </svg>
               <span className="sr-only">Search icon</span>
             </div>
             <div className="flex items-center gap-4">
-              <input
-                type="text"
-                onChange={handleSearchChange}
-                id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search..."
-              />
-              {/* Show Sign Out button only if the user is logged in */}
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  name="search"
+                  id="search-navbar"
+                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Search..."
+                />
+              </form>
               {currentUser && (
-                <button
-                  type="button"
-                  onClick={handleSignOut}
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                >
-                  Sign Out
-                </button>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-4 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                  >
+                    {currentUser.displayName || 'Profile'}
+                  </button>
+                  {isProfileOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
+                      <button
+                        onClick={handleSignOut}
+                        className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </div>

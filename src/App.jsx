@@ -5,16 +5,15 @@ import Header from "./components/Header";
 import { AllRoutes } from "./routes/AllRoutes";
 
 const App = () => {
-  const [searchQuery, setSearchQuery] = useState(''); // State for the search query
-
+ 
   return (
     <AuthProvider> {/* Wrap in AuthProvider */}
       <>
         {/* Pass the setSearchQuery function to Header for updating search query */}
-        <Header setSearchQuery={setSearchQuery} />
+        <Header />
         
         {/* Render routes and pass searchQuery as a prop */}
-        <AllRoutes searchQuery={searchQuery} />
+        <AllRoutes/>
 
         {/* Render the footer */}
         <Footer />

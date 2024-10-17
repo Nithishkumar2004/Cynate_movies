@@ -5,7 +5,7 @@ import Signin from '../auth/Signin';
 import Signup from '../auth/Signup';
 import ProtectedRoute from './ProtectedRoute';
 
-export const AllRoutes = ({ searchQuery }) => {
+export const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Signin />} />
@@ -14,7 +14,7 @@ export const AllRoutes = ({ searchQuery }) => {
         path="/home"
         element={
           <ProtectedRoute>
-            <MovieList apiPath="movie/now_playing" searchQuery={searchQuery} />
+            <MovieList apiPath="movie/now_playing"  />
           </ProtectedRoute>
         }
       />
@@ -22,7 +22,7 @@ export const AllRoutes = ({ searchQuery }) => {
         path="/movies/popular"
         element={
           <ProtectedRoute>
-            <MovieList apiPath="movie/popular" searchQuery={searchQuery} />
+            <MovieList apiPath="movie/popular"  />
           </ProtectedRoute>
         }
       />
@@ -30,7 +30,7 @@ export const AllRoutes = ({ searchQuery }) => {
         path="/movies/top"
         element={
           <ProtectedRoute>
-            <MovieList apiPath="movie/top_rated" searchQuery={searchQuery} />
+            <MovieList apiPath="movie/top_rated"  />
           </ProtectedRoute>
         }
       />
@@ -38,7 +38,7 @@ export const AllRoutes = ({ searchQuery }) => {
         path="/movies/upcoming"
         element={
           <ProtectedRoute>
-            <MovieList apiPath="movie/upcoming" searchQuery={searchQuery} />
+            <MovieList apiPath="movie/upcoming"  />
           </ProtectedRoute>
         }
       />
