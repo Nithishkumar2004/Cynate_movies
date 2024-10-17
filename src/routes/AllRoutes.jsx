@@ -43,7 +43,7 @@ export const AllRoutes = () => {
         }
       />
       <Route
-        path="/:id"
+        path="movies/:id"
         element={
           <ProtectedRoute>
             <MovieDetails />

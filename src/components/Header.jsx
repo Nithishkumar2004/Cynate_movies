@@ -16,7 +16,7 @@ const Header = () => {
 
   const navThings = [
     {
-      to: '/',
+      to: '/home',
       name: 'Home',
     },
     {
