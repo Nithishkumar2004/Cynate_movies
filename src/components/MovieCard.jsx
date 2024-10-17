@@ -1,12 +1,14 @@
 import React from 'react'
 import star from '../assets/star.svg'
 import fire from '../assets/fire.svg'
+import movienotfound from '../assets/movienotfound.jpg'
 
 
 const MovieCard = ({ movie }) => {
     // Use the correct image base URL and size
-    const imageUrl = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
-
+    const imageUrl = movie.backdrop_path
+    ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
+    : movienotfound;
     return (
       <div className="flex flex-col max-w-sm bg-white border border-gray-300 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 hover:shadow-xl transition-shadow duration-300 ease-in-out">
         <a href="#">

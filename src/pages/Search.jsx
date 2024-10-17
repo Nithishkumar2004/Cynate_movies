@@ -4,25 +4,25 @@ import useSearch from '../hooks/useSearch';
 import MovieCard from '../components/MovieCard';
 
 const Search = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([]); // Initialize as an array
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("q");
   
   // Fetch filtered movies using useSearch hook
-  const searchedmovies = useSearch(searchQuery);
-  console.log(searchedmovies);
-  
+  const { data: searchedMovies, loading, error } = useSearch(searchQuery);
 
-  // Update the state based on search query
+  // Update the state based on search query results
   useEffect(() => {
-    setMovies(searchedmovies);
-  }, [searchQuery]);
-  console.log(movies.data);
-  
+    setMovies(searchedMovies);
+  }, [searchedMovies]);
 
   return (
     <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {movies.length > 0 ? (
+      {loading ? (
+        <p className="col-span-full text-center">Loading...</p>
+      ) : error ? (
+        <p className="col-span-full text-center">{error}</p>
+      ) : movies.length > 0 ? (
         movies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))

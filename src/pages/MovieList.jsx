@@ -1,28 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import useFetch from '../hooks/useFetch';
-import useSearch from '../hooks/useSearch';
+import React, { useEffect } from 'react'
 import MovieCard from '../components/MovieCard';
+import useFetch from '../hooks/useFetch';
 
-const MovieList = ({ apiPath }) => {
-  const { data: fetchedMovies } = useFetch(apiPath);
-  const [movies, setMovies] = useState([]);
 
-  
+const MovieList = ({apiPath}) => {
 
-  // Update movies based on search query and fetched movies
-
+  const { data:movies } = useFetch(apiPath);
 
   return (
-    <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {movies && movies.length > 0 ? (
-        movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))
-      ) : (
-        <p className="col-span-full text-center">No movies found</p>
-      )}
+    <main className='min-h-screen'>
+      <section className='max-w-7xl py-7 m-auto'>
+        <div className='grid sm:grid-cols-2 lg:grid-cols-3'>
+          {movies.map((movie) => (
+             <MovieCard key={movie.id} movie={movie}/>
+          ))}
+        </div>
+      </section>
     </main>
-  );
-};
+  )
+}
 
-export default MovieList;
+export default MovieList
