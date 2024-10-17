@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import useFetchDetails from '../hooks/useFetchDetails';
-
+import movienotfound from '../assets/movienotfound.jpg'
 const MovieDetails = () => {
   const { id } = useParams();
   const { data: movieDetails } = useFetchDetails(id);
@@ -23,20 +23,39 @@ const MovieDetails = () => {
   return (
     <div className="px-10 pt-3 bg-gray-50 text-gray-800 font-sans">
       <div className="flex justify-center items-center h-[400px] w-full mb-6 bg-gray-100 rounded-lg shadow-lg">
-        <img
-          className="w-[800px] h-full rounded-lg object-cover"
-          src={`https://image.tmdb.org/t/p/w500${backdrop_path}`}
-          alt={title}
-        />
+        {
+          backdrop_path?
+          (<img
+            className="w-[800px] h-full rounded-lg object-cover"
+            src={`https://image.tmdb.org/t/p/w500${backdrop_path}`}
+            alt={title}
+          />)
+          :
+          (<img
+            className="w-[800px] h-full rounded-lg object-cover"
+            src={movienotfound}
+            alt={title}
+          />
+
+          )
+        }
       </div>
 
       <div className="flex mt-6">
-        {poster_path && (
+        {poster_path ?(
           <img
             className="w-40 h-60 object-cover rounded-lg mr-6 shadow-md border-2 border-gray-200"
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
             alt={title}
           />
+        ):
+        (
+          <img
+          className="w-40 h-60 object-cover rounded-lg mr-6 shadow-md border-2 border-gray-200"
+          src={movienotfound}
+          alt={title}
+        />
+
         )}
 
         <div className="flex flex-col">
