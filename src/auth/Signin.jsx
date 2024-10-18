@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/firebase';
 import { useNavigate, NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -21,13 +22,13 @@ const Signin = () => {
 
     // Validate email format
     if (!validateEmail(email)) {
-      setError('Please enter a valid email address.');
+      toast.error("Please enter a valid email address.")
       return;
     }
 
     // Ensure password is not empty
     if (password.trim() === '') {
-      setError('Password cannot be empty.');
+      toast.error('Password cannot be empty.');
       return;
     }
 
@@ -35,7 +36,7 @@ const Signin = () => {
       .then((userCredential) => {
         // Signed in successfully
         const user = userCredential.user;
-        console.log('User signed in: ', user);
+        toast.success("Login Successful")
         navigate("/home"); // Use navigate for routing
         setError(''); // Clear error on successful sign-in
         setEmail(''); // Clear email field
@@ -47,13 +48,13 @@ const Signin = () => {
         const errorMessage = error.message;
 
         if (errorCode === 'auth/user-not-found') {
-          setError('No user found with this email address.');
+          toast.error('No user found with this email address.');
         } else if (errorCode === 'auth/wrong-password') {
-          setError('Incorrect password. Please try again.');
+          toast.error('Incorrect password. Please try again.');
         } else {
           setError(errorMessage);
         }
-        console.error('Error signing in: ', errorCode, errorMessage);
+        toast.error('Error signing in: ', errorCode, errorMessage);
       });
   };
 
