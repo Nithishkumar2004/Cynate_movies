@@ -73,7 +73,6 @@ const Signup = () => {
             required
           />
         </div>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         {successMessage && <p className="text-green-500 text-sm mb-4">{successMessage}</p>}
         <button
           type="submit"

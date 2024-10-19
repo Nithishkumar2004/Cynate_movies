@@ -1,13 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyAUjGivrk0nOx7Q8ZlxQRtiG-tnqYsiuZ4",
+  authDomain: "cynate-movies.firebaseapp.com",
+  projectId: "cynate-movies",
+  storageBucket: "cynate-movies.appspot.com",
+  messagingSenderId: "90520124251",
+  appId: "1:90520124251:web:8f4d4e56b62782ac25b87e"
 };
 
 const app = initializeApp(firebaseConfig);

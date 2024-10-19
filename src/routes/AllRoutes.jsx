@@ -57,6 +57,14 @@ export const AllRoutes = () => {
           </ProtectedRoute>
         }
       />
+            <Route
+        path="home/:id"
+        element={
+          <ProtectedRoute>
+            <MovieDetails />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/search"
         element={
