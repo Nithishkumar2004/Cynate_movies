@@ -1,45 +1,35 @@
-// Signup.js
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
   const validateEmail = (email) => {
-    // Basic email pattern validation
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
   };
 
   const handleSignup = (e) => {
     e.preventDefault();
-
-    // Clear any previous messages
-    setError('');
-    setSuccessMessage('');
-
-    // Validate email format
     if (!validateEmail(email)) {
-      setError('Please enter a valid email address.');
+      toast.error('Please enter a valid email address.');
       return;
     }
 
-    // Validate password length
     if (password.length < 6) {
-      setError('Password should be at least 6 characters long.');
+      toast.error('Password should be at least 6 characters long.');
       return;
     }
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log('User signed up: ', user);
-        setSuccessMessage('Signup successful! You can now sign in.');
+        toast.success('Signup successful! You can now sign in.');
         setError('');
         setEmail('');
         setPassword('');
@@ -48,16 +38,12 @@ const Signup = () => {
         const errorCode = error.code;
         let errorMessage = '';
 
-        // Check for specific Firebase error codes
         if (errorCode === 'auth/email-already-in-use') {
           errorMessage = 'This email is already in use. Please sign in or use a different email.';
         } else {
           errorMessage = error.message;
         }
 
-        setError(errorMessage);
-        setSuccessMessage('');
-        console.error('Error signing up: ', errorCode, errorMessage);
       });
   };
 

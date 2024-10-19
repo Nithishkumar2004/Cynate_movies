@@ -1,4 +1,3 @@
-// AllRoutes.js
 import { Routes, Route } from 'react-router-dom';
 import { MovieList, MovieDetails, PageNotFound, Search } from '../pages';
 import Signin from '../auth/Signin';

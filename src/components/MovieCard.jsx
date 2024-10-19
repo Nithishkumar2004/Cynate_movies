@@ -5,7 +5,6 @@ import movienotfound from '../assets/movienotfound.jpg'
 
 
 const MovieCard = ({ movie }) => {
-    // Use the correct image base URL and size
     const imageUrl = movie.backdrop_path
     ? `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`
     : movienotfound;

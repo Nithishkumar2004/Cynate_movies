@@ -1,4 +1,4 @@
-// Signin.js
+
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase/firebase';
@@ -8,11 +8,8 @@ import { toast } from 'react-toastify';
 const Signin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate
-
+  const navigate = useNavigate();
   const validateEmail = (email) => {
-    // Basic email pattern validation
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
   };
@@ -20,13 +17,11 @@ const Signin = () => {
   const handleSignin = (e) => {
     e.preventDefault();
 
-    // Validate email format
     if (!validateEmail(email)) {
       toast.error("Please enter a valid email address.")
       return;
     }
 
-    // Ensure password is not empty
     if (password.trim() === '') {
       toast.error('Password cannot be empty.');
       return;
@@ -34,27 +29,22 @@ const Signin = () => {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in successfully
         const user = userCredential.user;
-        toast.success("Login Successful")
-        navigate("/home"); // Use navigate for routing
-        setError(''); // Clear error on successful sign-in
-        setEmail(''); // Clear email field
-        setPassword(''); // Clear password field
+        toast.success('Login Successful')
+        navigate("/home"); 
+        setEmail(''); 
+        setPassword('');
       })
       .catch((error) => {
-        // Handle different error codes for better feedback
         const errorCode = error.code;
-        const errorMessage = error.message;
-
         if (errorCode === 'auth/user-not-found') {
           toast.error('No user found with this email address.');
         } else if (errorCode === 'auth/wrong-password') {
-          toast.error('Incorrect password. Please try again.');
-        } else {
-          setError(errorMessage);
+          toast.error('Incorrect email or password. Please try again.');
+        } else if (errorCode === 'auth/too-many-requests') {
+          toast.error('Too many attempts. Please wait a moment and try again.');
         }
-        toast.error('Error signing in: ', errorCode, errorMessage);
+        
       });
   };
 
@@ -84,7 +74,6 @@ const Signin = () => {
             required
           />
         </div>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"

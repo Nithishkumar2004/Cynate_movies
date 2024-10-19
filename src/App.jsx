@@ -1,24 +1,22 @@
-import { AuthProvider } from "./contexts/AuthContext"; // Import AuthProvider
+import { AuthProvider } from "./contexts/AuthContext";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { AllRoutes } from "./routes/AllRoutes";
 import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
  
   return (
 
-<AuthProvider> {/* Wrap in AuthProvider */}
+<AuthProvider>
       <>
-        {/* Pass the setSearchQuery function to Header for updating search query */}
         <ToastContainer/>
 
         <Header />
         
-        {/* Render routes and pass searchQuery as a prop */}
         <AllRoutes/>
 
-        {/* Render the footer */}
         <Footer />
       </>
     </AuthProvider>

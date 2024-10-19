@@ -18,7 +18,7 @@ const useSearch = (searchQuery) => {
           options
         );
         const result = await response.json();
-        setData(result.results || []); // Set the movies list or an empty array
+        setData(result.results || []); 
       } catch (err) {
         setError('Failed to fetch movies');
       } finally {

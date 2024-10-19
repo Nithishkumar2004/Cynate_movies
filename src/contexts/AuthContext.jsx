@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { auth } from '../firebase/firebase'; // Ensure this path is correct
+import { auth } from '../firebase/firebase'; 
 import { onAuthStateChanged } from 'firebase/auth';
 
 const AuthContext = React.createContext();
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return () => unsubscribe(); // Use a cleanup function
+    return () => unsubscribe();
   }, []);
 
   const value = {
